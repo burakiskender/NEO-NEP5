@@ -12,7 +12,7 @@ This Repository contains
 
 Nep-5 token has these operations:
 
-    1.deploy : Adds all of the 100000000 tokens to Owners wallet
+    1.deploy : Adds all of the 100000000 tokens to Owners wallet (Owner is the wallet whose scripthash is filled in c# sourcecode)
 
     2.totalSupply : returns total supply of tokens
 
