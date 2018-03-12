@@ -1,4 +1,6 @@
 # NEO-NEP5
+
+#For more detailed description(with images) download the readme.docx#
 Open neo-gui
  
 Go to “Deploy Contract interface”
@@ -34,9 +36,6 @@ Paste your smart contracts scripthash and press search button(you may need to wa
 1.Add ”deploy” parameter to the invoke statement
 2.Press Test and Invoke buttons.
 
- 
-This is the response you should get.
- 
 Wait until the next block generates.
  
 Go to “Asset” interface and you should be able to see that your tokens are in your possession.
