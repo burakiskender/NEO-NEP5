@@ -1,13 +1,13 @@
 # NEO-NEP5
 
-# For  detailed description(with images) on how to deploy nep-5 token download the readme.docx
+# For  detailed description(with images) on how to deploy nep-5 token download the Create NEP-5 token.docx or Create NEP-5 token.pdf
 
 This Repository contains 
 
-    1.Create NEP-5 token.docx file that describes how to deploy nep-5 token.
+    1.Create NEP-5 token.docx  and Create NEP-5 token.pdf file that describes how to deploy nep-5 token.
 
     2.NeoContract2.avm bytecode for the nep-5 token deployment.
-
+as
     3.Contract1.cs c# source code for this token.
 
 Nep-5 token has these operations:
