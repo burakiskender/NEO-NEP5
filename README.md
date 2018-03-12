@@ -1,6 +1,7 @@
 # NEO-NEP5
 
-#For more detailed description(with images) download the readme.docx#
+#For more detailed description(with images) download the readme.docx
+
 Open neo-gui
  
 Go to “Deploy Contract interface”
