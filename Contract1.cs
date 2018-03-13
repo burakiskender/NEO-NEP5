@@ -10,17 +10,15 @@ namespace Neo.SmartContract
     public class ICO_Template : Framework.SmartContract
     {
         //Token Settings
-        public static string Name() => "Ed.coin";
-        public static string Symbol() => "EC";
+        public static string Name() => "And.coin";
+        public static string Symbol() => "AC";
         public static readonly byte[] Owner = "Acdy3RGNkRssAx7EXwWemkjjsAZJhC2sb6".ToScriptHash();
         public static byte Decimals() => 8;
         private const ulong factor = 100000000; //decided by Decimals()
         private const ulong neo_decimals = 100000000;
 
         //ICO Settings
-        private static readonly byte[] neo_asset_id = { 155, 124, 255, 218, 166, 116, 190, 174, 15, 147, 14, 190, 96, 133, 175, 144, 147, 229, 254, 86, 179, 74, 92, 34, 12, 205, 207, 110, 252, 51, 111, 197 };
         private const ulong total_amount = 1000000000 * factor; // pre ico token amount
-        private const ulong basic_rate = 1000 * factor;
 
         [DisplayName("transfer")]
         public static event Action<byte[], byte[], BigInteger> Transferred;
@@ -65,13 +63,6 @@ namespace Neo.SmartContract
                     return BalanceOf(account);
                 }
                 if (operation == "decimals") return Decimals();
-            }
-            //you can choice refund or not refund
-            byte[] sender = GetSender();
-            ulong contribute_value = GetContributeValue();
-            if (contribute_value > 0 && sender.Length != 0)
-            {
-                Refund(sender, contribute_value);
             }
             return false;
         }
@@ -120,60 +111,5 @@ namespace Neo.SmartContract
             return Storage.Get(Storage.CurrentContext, address).AsBigInteger();
         }
 
-        //whether over contribute capacity, you can get the token amount
-        private static ulong CurrentSwapToken(byte[] sender, ulong value, ulong swap_rate)
-        {
-            ulong token = value / neo_decimals * swap_rate;
-            BigInteger total_supply = Storage.Get(Storage.CurrentContext, "totalSupply").AsBigInteger();
-            BigInteger balance_token = total_amount - total_supply;
-            if (balance_token <= 0)
-            {
-                Refund(sender, value);
-                return 0;
-            }
-            else if (balance_token < token)
-            {
-                Refund(sender, (token - balance_token) / swap_rate * neo_decimals);
-                token = (ulong)balance_token;
-            }
-            return token;
-        }
-
-        // check whether asset is neo and get sender script hash
-        private static byte[] GetSender()
-        {
-            Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;
-            TransactionOutput[] reference = tx.GetReferences();
-            // you can choice refund or not refund
-            foreach (TransactionOutput output in reference)
-            {
-                if (output.AssetId == neo_asset_id) return output.ScriptHash;
-            }
-            return new byte[] { };
-        }
-
-        // get smart contract script hash
-        private static byte[] GetReceiver()
-        {
-            return ExecutionEngine.ExecutingScriptHash;
-        }
-
-        // get all you contribute neo amount
-        private static ulong GetContributeValue()
-        {
-            Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;
-            TransactionOutput[] outputs = tx.GetOutputs();
-            ulong value = 0;
-            // get the total amount of Neo
-            // 获取转入智能合约地址的Neo总量
-            foreach (TransactionOutput output in outputs)
-            {
-                if (output.ScriptHash == GetReceiver() && output.AssetId == neo_asset_id)
-                {
-                    value += (ulong)output.Value;
-                }
-            }
-            return value;
-        }
     }
 }
